@@ -1,13 +1,11 @@
-// Connect to the extension and send a sample test message
-let port = chrome.runtime.connect({ name: "sampleConnection" });
-port.postMessage({ message: "This is a sample test message from the web app" });
+// Send a message to the extension
+let extensionId = "niabohgmmladbgipommcolmbobckcjjk"; // Replace with your actual extension ID
 
-// Listen for messages from the extension
-port.onMessage.addListener(function(msg) {
-  console.log("Message received from extension:", msg);
-});
-
-// Optionally, handle disconnection from the extension
-port.onDisconnect.addListener(function() {
-  console.log("Port disconnected");
+// Send a message to the extension
+chrome.runtime.sendMessage(extensionId, { message: "This is a sample test message from the web app" }, function(response) {
+  if (chrome.runtime.lastError) {
+    console.error("Error sending message to extension:", chrome.runtime.lastError);
+  } else {
+    console.log("Message sent to extension:", response);
+  }
 });
